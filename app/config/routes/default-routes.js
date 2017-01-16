@@ -16,7 +16,7 @@ module.exports = function(app) {
    * Display Scores Page
    **/
   app.get('/scores', isLoggedIn, function(req, res) {
-    var score = parseInt((req.user.score / 140)*100);
+    var score = parseInt((req.user.score / 120)*100);
     res.render('scores', {
       user: (req.user) ? req.user : undefined,
       title: "Scores & Results",
