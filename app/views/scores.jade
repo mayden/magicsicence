@@ -1,0 +1,36 @@
+include ./layouts/header.jade
+div.container-fluid.page-wrap
+  div.row
+    div.col-md-10.col-md-offset-1
+      h2.Title.text-center Results
+      div.row
+        div.col-md-6.col-md-offset-3.text-center
+          h4 Do you have the magic?
+      div.row
+        div.col-md-6.col-md-offset-3
+          p &nbsp;
+        div.col-md-6.col-md-offset-3
+          p
+            b Full Name: &nbsp;
+            | #{user.firstname} #{user.lastname}
+          p
+            b Email: &nbsp;
+            | #{user.email}
+          p
+            b Age: &nbsp;
+            | #{user.age}
+          p
+            b Educational Status: &nbsp;
+            | #{user.educational_status}
+          if(user.subject_study)
+          p
+            b Subject Study: &nbsp;
+            | #{user.subject_study}
+        div.col-md-6.col-md-offset-2.text-center
+          p &nbsp;
+          span
+            | YOUR TOTAL SCORE IS: &nbsp;
+          div.btn-circle.btn.btn-primary   #{score}
+
+
+include ./layouts/footer.jade

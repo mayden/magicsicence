@@ -1,0 +1,54 @@
+include ./layouts/header.jade
+div.container-fluid.page-wrap
+  div.row
+      div.col-md-8.col-md-offset-2
+        form(id="signup", name="signup",method='post', action='/signup')
+          legend.text-center Register & Play
+          fieldset
+            legend Account Details
+            .form-group.col-md-6
+              label(for='firstname') First name
+              input#first_name.form-control(type='text', name='firstname', placeholder='First Name' required)
+            .form-group.col-md-6
+              label(for='lastname') Last name
+              input.form-control(type='text', name='lastname', id='lastname', placeholder='Last Name' required)
+            .form-group.col-md-6
+              label(for='email') Email
+              input.form-control(type='email', name='email', id='email', placeholder='Email' required)
+            .form-group.col-md-6
+              label(for='age') Age
+              select#age.form-control(name='age')
+                option(value="0-5") 0 - 5
+                option(value="6-12") 6 - 12
+                option(value="13-17") 13 - 17
+                option(value="18-26") 18 - 26
+                option(value="27-45") 27 - 45
+                option(value="46-65") 46 - 65
+                option(value="66+") 66+
+            .form-group.col-md-6
+              label(for='inputPassword') Password
+              input.form-control(type='password' name='password' placeholder='Password' id='inputPassword' required)
+            .form-group.col-md-6
+              label(for='inputPasswordConfirm') Confirm Password
+              input.form-control(type='password', name='confirm_password',id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Whoops, these dont match" placeholder="Confirm" required)
+          fieldset
+            legend Optional Details
+            .form-group.col-md-6
+              label(for='educationalstatus') Educational Status
+              select#educational-status.form-control(name='educationalstatus')
+                option(value='None') None
+                option(value='High School') High School
+                option(value='First-Year Graduate B.S.c/B.A') First-Year Graduate B.S.c/B.A
+                option(value='Second-Year Graduate M.S.c') Second-Year Graduate M.S.c
+                option(value='Third-Year Graduate') Third-Year Graduate
+                option(value='Other') Other
+            .form-group.col-md-6
+              label(for='subjectstudy') Subject of Study
+              input#subject-study.form-control(type='text', name='subjectstudy', placeholder='Subject of Study' required)
+            .form-group.col-md-12
+              button.btn.btn-primary.btn-block(type='submit')
+                | Register
+            .form-group
+              .col-md-12
+                | &nbsp;
+include ./layouts/footer.jade

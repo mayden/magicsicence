@@ -1,0 +1,116 @@
+include ./layouts/header.jade
+div.container-fluid.page-wrap
+  div.row
+    div.col-md-10.col-md-offset-1
+      h2.Title.text-center Magic Experiment #1
+      div.row
+        div.col-md-6.col-md-offset-3.text-center
+          h4 Perceptual Anticipation
+      div.row
+        div.col-md-6.col-md-offset-3.text-center#video
+          iframe(width='560', height='315', src='//www.youtube.com/embed/goYPBRA0i-0', frameborder='0')
+          div.top30
+            button.btn.btn-success#ready
+              | I'm Ready
+    if(!prevDisplayed)
+      div.row
+        div.col-md-6.col-md-offset-3
+          div#mySurveyJSName
+      div.row.top30
+        div.col-md-6.col-md-offset-3
+          div#results.text-center.top30
+    else
+      div.row
+        div.col-md-6.col-md-offset-3
+            p &nbsp;
+            p You have already did this magic experiment.
+            p
+                | You allowed to do the magic experiment only&nbsp;
+                b once&nbsp;
+                | per user.
+    div#magicDone.hidden
+        =prevDisplayed
+
+include ./layouts/footer.jade
+
+script.
+  $(document).ready(function () {
+      $('#mySurveyJSName').hide();
+    if($('#magicDone').text() == "1")
+    {
+        $('#mySurveyJSName').hide();
+        $('#video').hide();
+    }
+
+    $('#ready').click(function (e) {
+        $('#video').hide();
+        $('#mySurveyJSName').show();
+      });
+
+    });
+
+  Survey.Survey.cssType = "bootstrap";
+
+  var survey = new Survey.Survey(
+          {
+            pages: [{
+              name: "page1",
+              questions: [{
+                type: "radiogroup",
+                choices: [{value: "one", text: "2"}, {value: "two", text: "3"}, {value: "three", text: "4"}],
+                name: "How many times was the ball thrown?"
+              }, {
+                type: "radiogroup",
+                choices: [{value: "one", text: "female"}, {value: "two", text: "male"}, {
+                  value: "three",
+                  text: "don't know"
+                }],
+                name: "What was the gender of the magician?"
+              }, {
+                type: "radiogroup",
+                choices: [{value: "one", text: "Yes"}, {value: "two", text: "No"}],
+                name: "Have you seen that the ball was thrown up at the third time?"
+              }, {
+                type: "radiogroup",
+                choices: [{value: "one", text: "The magician threw it very fast"}, {
+                  value: "two",
+                  text: "The magician threw the ball aside"
+                }, {value: "three", text: "The magician didn't throw the ball and hid it"}],
+                name: "How did the ball disappeared?"
+              }]
+            }]
+          });
+
+  survey.onComplete.add(function (s) {
+   document.getElementById('results').innerHTML = '<h3> Thank you for completing this part. <br /> You will now proceed to the <span class="level-text">second</span> stage.. </h3>';
+   document.getElementById('mySurveyJSName').innerHTML = '';
+   var totalScore = 0;
+    if(s.data["How many times was the ball thrown?"] == "one")
+      totalScore += 10;
+
+    if(s.data["What was the gender of the magician?"] == "two")
+      totalScore += 10;
+
+    if(s.data["Have you seen that the ball was thrown up at the third time?"] == "two")
+      totalScore += 10;
+
+    if(s.data["How did the ball disappeared?"] == "three")
+      totalScore += 10;
+
+    $.post("/updatescore",
+            {
+              score: totalScore,
+              magicId: 1
+            },
+            function (data, status) {
+            console.log("Data is: " + data);
+            console.log("Status is: " + status);
+            });
+
+  window.setTimeout(function() {
+    window.location.href = '/magic2';
+  }, 1500);
+
+  });
+
+  survey.render("mySurveyJSName");

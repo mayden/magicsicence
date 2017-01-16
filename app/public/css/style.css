@@ -1,0 +1,67 @@
+* {
+  margin: 0;
+}
+html, body {
+  height: 100%;
+}
+.page-wrap {
+  min-height: 100%;
+  /* equal to footer height */
+  margin-bottom: -142px;
+}
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+footer, .page-wrap:after {
+  height: 142px;
+}
+footer {
+  background-color: #222;
+  border: 1px solid #080808;
+  color: #FFF;
+  padding: 25px;
+}
+.navbar {
+  border-radius: 0px;
+}
+.signin-form {
+  width: 300px;
+  padding: 25px;
+}
+
+#sq_100,#sq_101,#sq_102,#sq_103,#sq_104,#sq_105,#sq_106 {
+  margin-bottom: 14px;
+}
+.panel-footer {
+  text-align: center;
+}
+
+h4 {
+  color: #E5A517;
+}
+
+.top30 { margin-top: 30px; }
+
+form * {
+  border-radius:0 !important;
+}
+
+form > fieldset > legend {
+  font-size:120%;
+}
+
+.level-text {
+  color: #337ab7;
+  font-weight: bold;
+}
+.btn-circle {
+  width: 70px;
+  height: 50px;
+  text-align: center;
+  padding: 6px 6px 12px 2px;
+  font-size: 22px;
+  line-height: 1.42;
+  border-radius: 15px;
+  font-weighr: bold;
+}

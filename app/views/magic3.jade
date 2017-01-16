@@ -1,0 +1,116 @@
+include ./layouts/header.jade
+div.container-fluid.page-wrap
+  div.row
+    div.col-md-10.col-md-offset-1
+      h2.Title.text-center Magic Experiment #3
+      div.row
+        div.col-md-6.col-md-offset-3.text-center
+          h4 The Use Of Screen
+      div.row
+        div.col-md-6.col-md-offset-3.text-center#video
+            object(width='425', height='344')
+                param(name='movie', value='http://swf.tubechop.com/tubechop.swf?vurl=Rgg_LhbfWxI&start=19&end=65&cid=8793295')
+                embed(src='http://swf.tubechop.com/tubechop.swf?vurl=Rgg_LhbfWxI&start=19&end=65&cid=8793295', type='application/x-shockwave-flash', allowfullscreen='true', width='425', height='344')
+
+            div.top30
+            button.btn.btn-success#ready
+              | I'm Ready
+    if(!prevDisplayed)
+      div.row
+        div.col-md-6.col-md-offset-3
+          div#mySurveyJSName
+      div.row.top30
+        div.col-md-6.col-md-offset-3
+          div#results.text-center.top30
+    else
+      div.row
+        div.col-md-6.col-md-offset-3
+            p &nbsp;
+            p You have already did this magic experiment.
+            p
+                | You allowed to do the magic experiment only&nbsp;
+                b once&nbsp;
+                | per user.
+    div#magicDone.hidden
+        =prevDisplayed
+
+include ./layouts/footer.jade
+
+script.
+  $(document).ready(function () {
+      $('#mySurveyJSName').hide();
+
+      if ($('#magicDone').text() == "1") {
+          $('#mySurveyJSName').hide();
+          $('#video').hide();
+      }
+
+    $('#ready').click(function (e) {
+        $('#video').hide();
+        $('#mySurveyJSName').show();
+      });
+    });
+
+
+  Survey.Survey.cssType = "bootstrap";
+  var survey = new Survey.Survey(
+          {
+              pages: [{
+                  name: "page1",
+                  questions: [{
+                      type: "radiogroup",
+                      choices: [{value: "one", text: "1"}, {value: "two", text: "2"}, {value: "three", text: "3"}],
+                      name: "How many ropes does the magician hold?"
+                  }, {
+                      type: "radiogroup",
+                      choices: [{value: "one", text: "Yes"}, {value: "two", text: "No"}, {
+                          value: "three",
+                          text: "There was only one rope"
+                      }],
+                      name: "If you answered more than one in the previous question, were the ropes of the same length?"
+                  }, {
+                      type: "radiogroup",
+                      choices: [{value: "one", text: "Very much"}, {value: "two", text: "Partly"}, {
+                          value: "three",
+                          text: "Didn't listen to him"
+                      }],
+                      name: "Did the magician's talking distract you?"
+                  }, {
+                      type: "radiogroup",
+                      choices: [{value: "one", text: "His father"}, {
+                          value: "two",
+                          text: "His grandfather"
+                      }, {value: "three", text: "His wife"}, {value: "four", text: "His babysitter"}],
+                      name: "Who showed the magic to the magician in his childhood?"
+                  }]
+              }]
+          });
+  survey.onComplete.add(function (s) {
+   document.getElementById('results').innerHTML = '<h3> Thank you for completing this part. <br /> You will now proceed to the <span class="level-text">scoring</span> page.. </h3>';
+   document.getElementById('mySurveyJSName').innerHTML = '';
+   var totalScore = 0;
+    if(s.data["How many ropes does the magician hold?"] == "two")
+      totalScore += 10;
+
+    if(s.data["If you answered more than one in the previous question, were the ropes of the same length?"] == "two")
+      totalScore += 10;
+
+    if(s.data["Who showed the magic to the magician in his childhood?"] == "two")
+        totalScore += 10;
+
+    $.post("/updatescore",
+            {
+              score: totalScore,
+                magicId: 3
+            },
+            function (data, status) {
+            console.log("Data is: " + data);
+            console.log("Status is: " + status);
+            });
+
+      window.setTimeout(function () {
+          window.location.href = '/scores';
+      }, 1500);
+
+  });
+  survey.render("mySurveyJSName");

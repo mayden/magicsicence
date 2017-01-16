@@ -1,0 +1,128 @@
+include ./layouts/header.jade
+div.container-fluid.page-wrap
+  div.row
+    div.col-md-10.col-md-offset-1
+      h2.Title.text-center Magic Experiment #2
+      div.row
+        div.col-md-6.col-md-offset-3.text-center
+          h4 Inattentional blindness
+      div.row
+        div.col-md-6.col-md-offset-3.text-center#video
+            object(width='425', height='344')
+                param(name='movie', value='http://swf.tubechop.com/tubechop.swf?vurl=UyEm4G_BC68&start=4&end=40.87&cid=8793210')
+                embed(src='http://swf.tubechop.com/tubechop.swf?vurl=UyEm4G_BC68&start=4&end=40.87&cid=8793210', type='application/x-shockwave-flash', allowfullscreen='true', width='425', height='344')
+
+            div.top30
+            button.btn.btn-success#ready
+              | I'm Ready
+    if(!prevDisplayed)
+      div.row
+        div.col-md-6.col-md-offset-3
+          div#mySurveyJSName
+      div.row.top30
+        div.col-md-6.col-md-offset-3
+          div#results.text-center.top30
+    else
+      div.row
+        div.col-md-6.col-md-offset-3
+            p &nbsp;
+            p You have already did this magic experiment.
+            p
+                | You allowed to do the magic experiment only&nbsp;
+                b once&nbsp;
+                | per user.
+    div#magicDone.hidden
+        =prevDisplayed
+
+include ./layouts/footer.jade
+
+script.
+  $(document).ready(function () {
+      $('#mySurveyJSName').hide();
+
+      if ($('#magicDone').text() == "1") {
+          $('#mySurveyJSName').hide();
+          $('#video').hide();
+      }
+
+    $('#ready').click(function (e) {
+        $('#video').hide();
+        $('#mySurveyJSName').show();
+      });
+    });
+
+
+  Survey.Survey.cssType = "bootstrap";var survey = new Survey.Survey(
+          {
+              pages: [{
+                  name: "page1",
+                  questions: [{
+                      type: "radiogroup",
+                      choices: [{value: "one", text: "10"}, {value: "two", text: "13"}, {value: "three", text: "16"}],
+                      name: "How many times the players wearing white passed the ball?"
+                  }, {
+                      type: "radiogroup",
+                      choices: [{value: "one", text: "4"}, {value: "two", text: "3"}, {value: "three", text: "2"}],
+                      name: "How many players were wearing white?"
+                  }, {
+                      type: "radiogroup",
+                      choices: [{value: "one", text: "2"}, {value: "two", text: "3"}, {value: "three", text: "4"}],
+                      name: "How many players were wearing black at the begining?"
+                  }, {
+                      type: "radiogroup",
+                      choices: [{value: "one", text: "2"}, {value: "two", text: "3"}, {value: "three", text: "4"}],
+                      name: "How many players were wearing black at the end?"
+                  }, {
+                      type: "radiogroup",
+                      choices: [{value: "one", text: "Male person"}, {
+                          value: "two",
+                          text: "No figure appeared"
+                      }, {value: "three", text: "Gorilla"}, {value: "four", text: "Clown"}],
+                      name: "What figure appeared during the video?"
+                  }, {
+                      type: "radiogroup",
+                      choices: [{value: "one", text: "black"}, {value: "two", text: "white"}, {
+                          value: "three",
+                          text: "blue"
+                      }, {value: "four", text: "red"}],
+                      name: "If you saw a figure, what was the color of the figure?"
+                  }]
+              }]
+          });
+  survey.onComplete.add(function (s) {
+   document.getElementById('results').innerHTML = '<h3> Thank you for completing this part. <br /> You will now proceed to the <span class="level-text">third</span> stage.. </h3>';
+   document.getElementById('mySurveyJSName').innerHTML = '';
+   var totalScore = 0;
+    if(s.data["How many times the players wearing white passed the ball?"] == "three")
+      totalScore += 10;
+
+    if(s.data["How many players were wearing white?"] == "two")
+      totalScore += 10;
+
+    if(s.data["How many players were wearing black at the begining?"] == "two")
+        totalScore += 10;
+
+    if(s.data["How many players were wearing black at the end?"] == "one")
+        totalScore += 10;
+
+    if (s.data["What figure appeared during the video?"] == "three")
+        totalScore += 10;
+
+    if (s.data["If you saw a figure, what was the color of the figure?"] == "one")
+        totalScore += 10;
+
+    $.post("/updatescore",
+            {
+              score: totalScore,
+              magicId: 2
+            },
+            function (data, status) {
+            console.log("Data is: " + data);
+            console.log("Status is: " + status);
+            });
+
+      window.setTimeout(function () {
+          window.location.href = '/magic3';
+      }, 1500);
+  });
+  survey.render("mySurveyJSName");

@@ -1,0 +1,39 @@
+include ./layouts/header.jade
+div.container-fluid.page-wrap
+  div.row
+    div.col-md-10.col-md-offset-1
+      h2.Title.text-center Does Magic Offer a Cryptozoology Ground for Psychology?
+      div.row
+        div.col-md-6.col-md-offset-3.text-center
+          h4 Review of General Psychology
+      div.row
+        div.col-md-6.col-md-offset-3
+          p We chose to make a short experiment that may show a connection between our education and our ability to analyze magic tricks.
+          p We hope that one day the experiment will contribute to the better understanding of the brain.
+
+        div.col-md-6.col-md-offset-3
+          p &nbsp;
+
+        div.col-md-6.col-md-offset-3
+          h4.text-center Guidelines
+          p Step 1: You will be asked to fill a short form about yourself.
+          p Step 2: You will be shown 3 magic videos.
+          p Step 3: Each video will be followed by some multiple choice questions. Choose wisely!
+          p Step 4: Check what is your score and learn from your mistakes.
+
+        div.col-md-6.col-md-offset-3
+          p &nbsp;
+        if user
+          div.col-md-6.col-md-offset-3.text-center
+            h3
+              | Hey #{user.firstname} #{user.lastname},
+              | Start the &nbsp;
+              a(href="/magic1") Magic!
+        else
+          div.col-md-6.col-md-offset-3.text-center
+            h3
+              a(href="/signup") Register Now &nbsp;
+              | & Start the magic!
+
+
+include ./layouts/footer.jade

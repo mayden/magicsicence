@@ -1,0 +1,80 @@
+doctype html
+html
+  head
+    title= title
+    link(href='/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/css/style.css', rel='stylesheet')
+    script(src="/js/lib/scripts.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.3.0/knockout-min.js")
+    script(src="/js/lib/survey.ko.min.js")
+  body
+    nav.navbar.navbar-inverse
+      div.container-fluid
+        div.navbar-header
+          button.navbar-toggle.collapsed(
+            type="button",
+            data-toggle="collapse",
+            data-target="#main-navbar-collapse",
+            aria-expanded="false"
+          )
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          
+        div#main-navbar-collapse.collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li
+              a(href="/") Computer Science & Magic
+            li
+              a(href="/magic1") Magic #1
+            li
+              a(href="/magic2") Magic #2
+            li
+              a(href="/magic3") Magic #3
+            li
+              a(href="/scores") Score
+
+          ul.nav.navbar-nav.navbar-right
+            if user
+              li
+                a(href="/")= user.firstname + " " + user.lastname
+              li
+                a(href="/logout") Log out
+            else
+              li.dropdown
+                a(href="#",
+                  data-toggle="dropdown",
+                  role="button",
+                  aria-haspopup="true",
+                  aria-expanded="false"
+                ).dropdown-toggle Sign in
+                  span.caret
+                form(
+                  name="signin",
+                  action="signin",
+                  method="post"
+                ).dropdown-menu.signin-form
+                  input(
+                    type="email",
+                    name="email",
+                    placeholder="Email address"
+                  ).form-control
+                  input(
+                    type="password",
+                    name="password",
+                    placeholder="Password"
+                  ).form-control
+                  input(
+                    type="submit",
+                    value="Sign in",
+                    class="btn btn-primary"
+                  )
+                
+              li
+                a(href="/signup") Sign Up
+              
+        if (flashMessage && flashMessage.length)
+          div.row
+            div.col-md-4.col-md-offset-4
+              div.alert.alert-danger.text-center= flashMessage
