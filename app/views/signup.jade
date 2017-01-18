@@ -44,7 +44,13 @@ div.container-fluid.page-wrap
                 option(value='Other') Other
             .form-group.col-md-6
               label(for='subjectstudy') Subject of Study
-              input#subject-study.form-control(type='text', name='subjectstudy', placeholder='Subject of Study' required)
+              select#subject-study.form-control(name='subjectstudy')
+                option(value='Pre Army') Pre Army
+                option(value='High School') High School
+                option(value='Computer Science and Engineering') Computer Science and Engineering
+                option(value='Humanities and Social Sciences') Humanities and Social Sciences
+                option(value='Law') Law
+                option(value='Other') Other
             .form-group.col-md-12
               button.btn.btn-primary.btn-block(type='submit')
                 | Register
